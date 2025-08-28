@@ -1,0 +1,523 @@
+@startuml
+
+' ---------- Entities ----------
+
+class Assignment {
+  - type: AssignmentType
+  - weight: int
+  - subject: Subject
+  - description: String
+  - grades: Set<Grade>
+  - id: Long
+   description: String
+   subject: Subject
+   weight: int
+   id: Long
+   type: AssignmentType
+   grades: Set<Grade>
+}
+class AssignmentController {
+  + updateAssignment(Long, Assignment): ResponseEntity<Assignment>
+  + deleteAssignment(Long): ResponseEntity<Void>
+  + removeGradeFromAssignment(Long, Long): ResponseEntity<Void>
+  + getAssignmentById(Long): ResponseEntity<Assignment>
+  + addGradeToAssignment(Long, Long): ResponseEntity<Assignment>
+  + createAssignment(Assignment): ResponseEntity<Assignment>
+   assignments: ResponseEntity<List<Assignment>>
+}
+interface AssignmentRepository << interface >>
+class AssignmentService {
+  + removeGradeFromAssignment(Long, Long): void
+  + deleteAssignmentById(Long): void
+  + getAssignmentById(Long): Assignment
+  + createAssignment(Assignment): Assignment
+  + addGradeToAssignment(Long, Long): Assignment
+  + updateAssignmentById(Long, Assignment): Assignment
+   assignments: List<Assignment>
+}
+enum AssignmentType << enumeration >> {
+  + values(): AssignmentType[]
+  + valueOf(String): AssignmentType
+}
+class Career {
+  - id: Long
+  - subjects: Set<Subject>
+  - name: String
+  - description: String
+  - faculty: Faculty
+   subjects: Set<Subject>
+   name: String
+   description: String
+   faculty: Faculty
+   id: Long
+}
+class CareerController {
+  + getCareerById(Long): ResponseEntity<Career>
+  + createCareer(Career): ResponseEntity<Career>
+  + updateCareer(Long, Career): ResponseEntity<Career>
+  + addSubjectToCareer(Long, Long): ResponseEntity<Career>
+  + removeSubjectFromCareer(Long, Long): ResponseEntity<Void>
+  + deleteCareer(Long): ResponseEntity<Void>
+   careers: ResponseEntity<List<Career>>
+}
+interface CareerRepository << interface >>
+class CareerService {
+  + updateCareerById(Long, Career): Career
+  + addSubjectToCareer(Long, Long): Career
+  + removeSubjectFromCareer(Long, Long): void
+  + createCareer(Career): Career
+  + getCareerById(Long): Career
+  + deleteCareerById(Long): void
+   careers: List<Career>
+}
+class Classroom {
+  - id: Long
+  - roomNumber: String
+  - location: String
+  - capacity: int
+  - course: Course
+   course: Course
+   location: String
+   roomNumber: String
+   id: Long
+   capacity: int
+}
+class ClassroomController {
+  + getClassroomById(Long): ResponseEntity<Classroom>
+  + deleteClassroom(Long): ResponseEntity<Void>
+  + updateClassroom(Long, Classroom): ResponseEntity<Classroom>
+  + createClassroom(Classroom): ResponseEntity<Classroom>
+   classrooms: ResponseEntity<List<Classroom>>
+}
+interface ClassroomRepository << interface >>
+class ClassroomService {
+  + getClassroomById(Long): Classroom
+  + updateClassroomById(Long, Classroom): Classroom
+  + createClassroom(Classroom): Classroom
+  + deleteClassroomById(Long): void
+   classrooms: List<Classroom>
+}
+class College {
+  - description: String
+  - faculties: Set<Faculty>
+  - name: String
+  - id: Long
+   name: String
+   description: String
+   id: Long
+   faculties: Set<Faculty>
+}
+class CollegeController {
+  + updateCollege(Long, College): ResponseEntity<College>
+  + addFacultyToCollege(Long, Long): ResponseEntity<College>
+  + deleteCollege(Long): ResponseEntity<Void>
+  + removeFacultyToCollege(Long, Long): ResponseEntity<College>
+  + getCollegeById(Long): ResponseEntity<College>
+  + createCollege(College): ResponseEntity<College>
+   colleges: ResponseEntity<List<College>>
+}
+interface CollegeRepository << interface >>
+class CollegeService {
+  + addFacultyToCollege(Long, Long): College
+  + getCollegeById(Long): College
+  + deleteCollegeById(Long): void
+  + updateCollegeById(Long, College): College
+  + createCollege(College): College
+  + removeFacultyFromCollege(Long, Long): void
+   colleges: List<College>
+}
+class CollegeSystemApplication {
+  + main(String[]): void
+}
+class CollegeSystemApplicationTests {
+  ~ contextLoads(): void
+}
+class Course {
+  - name: String
+  - subject: Subject
+  - professor: Professor
+  - classrooms: Set<Classroom>
+  - startDate: LocalDate
+  - endDate: LocalDate
+  - enrollments: Set<Enrollment>
+  - id: Long
+  - capacity: int
+  - modality: Modality
+   name: String
+   startDate: LocalDate
+   subject: Subject
+   enrollments: Set<Enrollment>
+   id: Long
+   endDateValid: boolean
+   capacity: int
+   endDate: LocalDate
+   modality: Modality
+   classrooms: Set<Classroom>
+   professor: Professor
+}
+class CourseController {
+  + getCourseById(Long): ResponseEntity<Course>
+  + addEnrollmentToCourse(Long, Long): ResponseEntity<Course>
+  + deleteCourse(Long): ResponseEntity<Void>
+  + updateCourse(Long, Course): ResponseEntity<Course>
+  + removeClassroomFromCourse(Long, Long): ResponseEntity<Void>
+  + removeEnrollmentFromCourse(Long, Long): ResponseEntity<Void>
+  + createCourse(Course): ResponseEntity<Course>
+  + addClassroomToCourse(Long, Long): ResponseEntity<Course>
+   courses: ResponseEntity<List<Course>>
+}
+interface CourseRepository << interface >>
+class CourseService {
+  + createCourse(Course): Course
+  + addClassroomToCourse(Long, Long): Course
+  + deleteCourseById(Long): void
+  + removeEnrollmentFromCourse(Long, Long): void
+  + updateCourseById(Long, Course): Course
+  + getCourseById(Long): Course
+  + addEnrollmentToCourse(Long, Long): Course
+  + removeClassroomFromCourse(Long, Long): void
+   courses: List<Course>
+}
+class Enrollment {
+  - id: Long
+  - status: EnrollmentStatus
+  - enrollmentDate: LocalDate
+  - student: Student
+  - course: Course
+   student: Student
+   course: Course
+   enrollmentDate: LocalDate
+   id: Long
+   status: EnrollmentStatus
+}
+class EnrollmentController {
+  + getEnrollmentById(Long): ResponseEntity<Enrollment>
+  + updateEnrollment(Long, Enrollment): ResponseEntity<Enrollment>
+  + deleteEnrollment(Long): ResponseEntity<Void>
+  + createEnrollment(Enrollment): ResponseEntity<Enrollment>
+   enrollments: ResponseEntity<List<Enrollment>>
+}
+interface EnrollmentRepository << interface >>
+class EnrollmentService {
+  + getEnrollmentById(Long): Enrollment
+  + createEnrollment(Enrollment): Enrollment
+  + deleteEnrollmentById(Long): void
+  + updateEnrollmentById(Long, Enrollment): Enrollment
+   enrollments: List<Enrollment>
+}
+enum EnrollmentStatus << enumeration >> {
+  + values(): EnrollmentStatus[]
+  + valueOf(String): EnrollmentStatus
+}
+class Faculty {
+  - name: String
+  - careers: Set<Career>
+  - location: String
+  - dean: String
+  - id: Long
+  - description: String
+  - college: College
+   name: String
+   description: String
+   location: String
+   college: College
+   careers: Set<Career>
+   id: Long
+   dean: String
+}
+class FacultyController {
+  + getFacultyById(Long): ResponseEntity<Faculty>
+  + deleteFaculty(Long): ResponseEntity<Void>
+  + updateFaculty(Long, Faculty): ResponseEntity<Faculty>
+  + removeCareerFromFaculty(Long, Long): ResponseEntity<Void>
+  + createFaculty(Faculty): ResponseEntity<Faculty>
+  + addCareerToFaculty(Long, Long): ResponseEntity<Faculty>
+   faculties: ResponseEntity<List<Faculty>>
+}
+interface FacultyRepository << interface >>
+class FacultyService {
+  + deleteFacultyById(Long): void
+  + removeCareerFromFaculty(Long, Long): void
+  + createFaculty(Faculty): Faculty
+  + addCareerToFaculty(Long, Long): Faculty
+  + updateFacultyById(Long, Faculty): Faculty
+  + getFacultyById(Long): Faculty
+   faculties: List<Faculty>
+}
+enum Gender << enumeration >> {
+  + values(): Gender[]
+  + valueOf(String): Gender
+}
+class GlobalException {
+  + handleValidationExceptions(MethodArgumentNotValidException): ResponseEntity<Map<String, String>>
+  + handleResourceNotFound(ResourceNotFoundException): ResponseEntity<Map<String, String>>
+}
+class Grade {
+  - student: Student
+  - id: Long
+  - score: Double
+  - assignment: Assignment
+   student: Student
+   assignment: Assignment
+   id: Long
+   score: Double
+}
+class GradeController {
+  + getGradeById(Long): ResponseEntity<Grade>
+  + createGrade(Grade): ResponseEntity<Grade>
+  + deleteGrade(Long): ResponseEntity<Void>
+  + updateGrade(Long, Grade): ResponseEntity<Grade>
+   grades: ResponseEntity<List<Grade>>
+}
+interface GradeRepository << interface >>
+class GradeService {
+  + deleteGradeById(Long): void
+  + createGrade(Grade): Grade
+  + getGradeById(Long): Grade
+  + updateGradeById(Long, Grade): Grade
+   grades: List<Grade>
+}
+interface IAssignmentService << interface >> {
+  + createAssignment(Assignment): Assignment
+  + removeGradeFromAssignment(Long, Long): void
+  + updateAssignmentById(Long, Assignment): Assignment
+  + deleteAssignmentById(Long): void
+  + addGradeToAssignment(Long, Long): Assignment
+  + getAssignmentById(Long): Assignment
+   assignments: List<Assignment>
+}
+interface ICareerService << interface >> {
+  + deleteCareerById(Long): void
+  + createCareer(Career): Career
+  + addSubjectToCareer(Long, Long): Career
+  + removeSubjectFromCareer(Long, Long): void
+  + getCareerById(Long): Career
+  + updateCareerById(Long, Career): Career
+   careers: List<Career>
+}
+interface IClassroomService << interface >> {
+  + deleteClassroomById(Long): void
+  + updateClassroomById(Long, Classroom): Classroom
+  + getClassroomById(Long): Classroom
+  + createClassroom(Classroom): Classroom
+   classrooms: List<Classroom>
+}
+interface ICollegeService << interface >> {
+  + getCollegeById(Long): College
+  + addFacultyToCollege(Long, Long): College
+  + updateCollegeById(Long, College): College
+  + deleteCollegeById(Long): void
+  + createCollege(College): College
+  + removeFacultyFromCollege(Long, Long): void
+   colleges: List<College>
+}
+interface ICourseService << interface >> {
+  + addEnrollmentToCourse(Long, Long): Course
+  + removeEnrollmentFromCourse(Long, Long): void
+  + addClassroomToCourse(Long, Long): Course
+  + updateCourseById(Long, Course): Course
+  + getCourseById(Long): Course
+  + removeClassroomFromCourse(Long, Long): void
+  + createCourse(Course): Course
+  + deleteCourseById(Long): void
+   courses: List<Course>
+}
+interface IEnrollmentService << interface >> {
+  + createEnrollment(Enrollment): Enrollment
+  + deleteEnrollmentById(Long): void
+  + getEnrollmentById(Long): Enrollment
+  + updateEnrollmentById(Long, Enrollment): Enrollment
+   enrollments: List<Enrollment>
+}
+interface IFacultyService << interface >> {
+  + removeCareerFromFaculty(Long, Long): void
+  + updateFacultyById(Long, Faculty): Faculty
+  + addCareerToFaculty(Long, Long): Faculty
+  + getFacultyById(Long): Faculty
+  + deleteFacultyById(Long): void
+  + createFaculty(Faculty): Faculty
+   faculties: List<Faculty>
+}
+interface IGradeService << interface >> {
+  + deleteGradeById(Long): void
+  + updateGradeById(Long, Grade): Grade
+  + getGradeById(Long): Grade
+  + createGrade(Grade): Grade
+   grades: List<Grade>
+}
+interface IProfessorService << interface >> {
+  + getProfessorById(Long): Professor
+  + removeCourseFromProfessor(Long, Long): void
+  + updateProfessorById(Long, Professor): Professor
+  + createProfessor(Professor): Professor
+  + deleteProfessorById(Long): void
+  + addCourseToProfessor(Long, Long): Professor
+   professors: List<Professor>
+}
+interface IStudentService << interface >> {
+  + createStudent(Student): Student
+  + updateStudentById(Long, Student): Student
+  + addGradeToStudent(Long, Long): Student
+  + deleteStudentById(Long): void
+  + removeGradeFromStudent(Long, Long): void
+  + getStudentById(Long): Student
+   students: List<Student>
+}
+interface ISubjectService << interface >> {
+  + removeAssignmentFromSubject(Long, Long): void
+  + addCourseToSubject(Long, Long): Subject
+  + createSubject(Subject): Subject
+  + removeCourseFromSubject(Long, Long): void
+  + updateSubjectById(Long, Subject): Subject
+  + deleteSubjectById(Long): void
+  + addAssignmentToSubject(Long, Long): Subject
+  + getSubjectById(Long): Subject
+   subjects: List<Subject>
+}
+enum Modality << enumeration >> {
+  + values(): Modality[]
+  + valueOf(String): Modality
+}
+class Professor {
+  - institutionalEmail: String
+  - courses: Set<Course>
+  - id: Long
+  - birthday: LocalDate
+  - gender: Gender
+  - lastName: String
+  - name: String
+   name: String
+   lastName: String
+   gender: Gender
+   id: Long
+   institutionalEmail: String
+   courses: Set<Course>
+   birthday: LocalDate
+}
+class ProfessorController {
+  + addCourseToProfessor(Long, Long): ResponseEntity<Professor>
+  + removeCourseFromProfessor(Long, Long): ResponseEntity<Void>
+  + deleteProfessor(Long): ResponseEntity<Void>
+  + createProfessor(Professor): ResponseEntity<Professor>
+  + updateProfessor(Long, Professor): ResponseEntity<Professor>
+  + getProfessorById(Long): ResponseEntity<Professor>
+   allProfessors: ResponseEntity<List<Professor>>
+}
+interface ProfessorRepository << interface >>
+class ProfessorService {
+  + removeCourseFromProfessor(Long, Long): void
+  + addCourseToProfessor(Long, Long): Professor
+  + createProfessor(Professor): Professor
+  + updateProfessorById(Long, Professor): Professor
+  + getProfessorById(Long): Professor
+  + deleteProfessorById(Long): void
+   professors: List<Professor>
+}
+class ResourceNotFoundException
+class Student {
+  - birthday: LocalDate
+  - enrollment: Enrollment
+  - id: Long
+  - lastName: String
+  - grades: Set<Grade>
+  - gender: Gender
+  - name: String
+  - institutionalEmail: String
+   name: String
+   lastName: String
+   gender: Gender
+   id: Long
+   institutionalEmail: String
+   grades: Set<Grade>
+   enrollment: Enrollment
+   birthday: LocalDate
+}
+class StudentController {
+  + getStudentById(Long): ResponseEntity<Student>
+  + createStudent(Student): ResponseEntity<Student>
+  + addGradeToStudent(Long, Long): ResponseEntity<Student>
+  + removeGradeFromStudent(Long, Long): ResponseEntity<Void>
+  + updateStudent(Long, Student): ResponseEntity<Student>
+  + deleteStudent(Long): ResponseEntity<Void>
+   allStudents: ResponseEntity<List<Student>>
+}
+interface StudentRepository << interface >>
+class StudentService {
+  + createStudent(Student): Student
+  + updateStudentById(Long, Student): Student
+  + deleteStudentById(Long): void
+  + addGradeToStudent(Long, Long): Student
+  + removeGradeFromStudent(Long, Long): void
+  + getStudentById(Long): Student
+   students: List<Student>
+}
+class Subject {
+  - assignments: List<Assignment>
+  - name: String
+  - credits: int
+  - career: Career
+  - id: Long
+  - description: String
+  - code: String
+  - courses: Set<Course>
+   name: String
+   description: String
+   assignments: List<Assignment>
+   id: Long
+   career: Career
+   code: String
+   courses: Set<Course>
+   credits: int
+}
+class SubjectController {
+  + removeAssignmentFromSubject(Long, Long): ResponseEntity<Void>
+  + getSubjectById(Long): ResponseEntity<Subject>
+  + updateSubject(Long, Subject): ResponseEntity<Subject>
+  + deleteSubject(Long): ResponseEntity<Void>
+  + addAssignmentToSubject(Long, Long): ResponseEntity<Subject>
+  + addCourseToSubject(Long, Long): ResponseEntity<Subject>
+  + createSubject(Subject): ResponseEntity<Subject>
+  + removeCourseFromSubject(Long, Long): ResponseEntity<Void>
+   allSubjects: ResponseEntity<List<Subject>>
+}
+interface SubjectRepository << interface >>
+class SubjectService {
+  + updateSubjectById(Long, Subject): Subject
+  + getSubjectById(Long): Subject
+  + addAssignmentToSubject(Long, Long): Subject
+  + createSubject(Subject): Subject
+  + removeAssignmentFromSubject(Long, Long): void
+  + deleteSubjectById(Long): void
+  + addCourseToSubject(Long, Long): Subject
+  + removeCourseFromSubject(Long, Long): void
+   subjects: List<Subject>
+}
+
+' ---------- Relations ----------
+
+College "1" -r-> "1..*" Faculty
+Faculty "1" --> "1..*" Career
+Career "1" --> "1..*" Subject
+Subject "1" -r-> "1..*" Course
+Course "1" --> "1..*" Classroom
+Course "1" --> "1" Professor
+Course "1" -r-> "1..*" Enrollment
+Enrollment "1" --> "1" Student
+Enrollment "1" --> "1..*" Subject
+Subject "1" -l-> "1..*" Assignment
+Assignment "1" --> "1..*" Grade
+Student "1" --> "0..*" Grade
+
+AssignmentService              ..|>  IAssignmentService
+CareerService                  ..|>  ICareerService
+ClassroomService               ..|>  IClassroomService
+CollegeService                 ..|>  ICollegeService
+CourseService                  ..|>  ICourseService
+EnrollmentService              ..|>  IEnrollmentService
+FacultyService                 ..|>  IFacultyService
+GradeService                   ..|>  IGradeService
+ProfessorService               ..|>  IProfessorService
+StudentService                 ..|>  IStudentService
+SubjectService                 ..|>  ISubjectService
+
+@enduml
