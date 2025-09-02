@@ -19,7 +19,7 @@
 	<description>College system microservices application</description>
 
     <modules>
-        <module>services/course</module>
+        <module>courses</module>
     </modules>
 
 	<url/>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <scope>provided</scope>
         </dependency>
 
 		<dependency>

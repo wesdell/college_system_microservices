@@ -1,13 +1,13 @@
-package com.wesdell.course;
+package com.wesdell.courses;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CourseApplication {
+public class CoursesApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CourseApplication.class, args);
+        SpringApplication.run(CoursesApplication.class, args);
     }
 
 }
